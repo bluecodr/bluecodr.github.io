@@ -1,0 +1,57 @@
+<h1>What is DRY (Don't Repeat Yourself)</h1>
+
+DRY is a fundamental software engineering concept that teaches developers not
+to write the same code twice. Let's explore what is meant by "the same code".
+It is easy to think that DRY is just a matter of looking for code that looks
+identical and removing one of the duplicates. This was my thinking when I was
+first introduced to DRY. Having gained more experience creating and maintaining
+large projects, I've come to understand that code (i.e.: syntax) duplication is
+a sufficient, but not necessary indication that the DRY principle has been
+broken. Instead, the developer ought to be looking for duplicated intent. Let's
+look at an example:
+
+Calculate fibonacci number iteratively:
+<pre>
+<code>
+  def iterativeFibonacci(n):
+    if n == 0 or n == 1:
+      return n
+
+    oldSum = 0
+    newSum = 1
+    
+    for i in range(0, n - 2):
+      buffer = oldSum + newSum
+      oldSum = newSum
+      newSum = buffer
+
+    return newSum
+
+  print(iterativeFibonacci(7))
+</code>
+</pre>
+
+Calculate fibonacci number recursively:
+<pre>
+<code>
+  def fibonacci(n):
+    if n == 0 or n == 1:
+      return n
+        
+    return recursiveFibonacci(n - 2, 0, 1)
+
+  def recursiveFibonacci(n, oldSum, newSum):
+    if n == 0:
+      return newSum
+        
+    buffer = oldSum + newSum
+    return recursiveFibonacci(n - 1, newSum, buffer)
+
+  print(fibonacci(7))
+</code>
+</pre>
+
+Clearly, there is no code (i.e.: syntax) duplication between these two
+examples, when viewed as a whole. Yet, if one were following the DRY principle
+and came across both these examples in the same codebase, it would make sense
+to remove one of them, because they are both accomplshing the same task.
